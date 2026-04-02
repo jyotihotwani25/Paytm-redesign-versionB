@@ -64,7 +64,7 @@ Version B introduces a different structural approach:
 ---
 
 ## 🌐 Live Demo
-👉 [Add your GitHub Pages / Netlify link here]
+https://jyotihotwani25.github.io/Paytm-redesign-versionB/
 
 ---
 
