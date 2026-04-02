@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paytm B — History</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hdr { background:var(--nav-surface);padding:13px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100; }
+    .page-hdr-back { width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+    .page-hdr-back svg { width:18px;height:18px;stroke:rgba(255,255,255,.8);fill:none;stroke-width:2;stroke-linecap:round; }
+    .page-hdr-title { font-size:16px;font-weight:700;color:#fff;flex:1; }
+    .hdr-icon { width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7); }
+    .hdr-icon svg { width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-hdr">
+    <a href="index.html" class="page-hdr-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+    <span class="page-hdr-title">Balance &amp; History</span>
+    <button class="hdr-icon" onclick="toggleFilters()" style="border:none;cursor:pointer;"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg></button>
+    <button class="hdr-icon" style="border:none;cursor:pointer;margin-left:6px;"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+  </div>
+
+  <!-- Account block — dark, balance hidden -->
+  <div style="background:var(--nav-surface);padding:0 20px 20px;">
+    <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:16px 18px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--n-400);letter-spacing:.5px;text-transform:uppercase;">ICICI Bank &middot; AC &middot;&middot;&middot;5512</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:2px;">UPI: arjun.kapoor@okicici</div>
+        </div>
+        <span class="badge badge-success">Active</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--n-400);letter-spacing:.3px;margin-bottom:4px;">AVAILABLE BALANCE</div>
+          <div id="histBal" style="font-size:24px;font-weight:700;color:var(--n-400);letter-spacing:2px;">&bull;&bull;&bull;&bull;&bull;</div>
+        </div>
+        <button class="eye-pill" id="histEyeBtn" onclick="openPin()">
+          <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Check Balance
+        </button>
+      </div>
+    </div>
+
+    <!-- Month stats row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;">
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);padding:10px 12px;">
+        <div style="font-size:10px;font-weight:700;color:var(--n-400);letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px;">Sent</div>
+        <div style="font-size:16px;font-weight:700;color:#fff;">Rs.14,350</div>
+        <div style="font-size:10px;color:var(--n-400);margin-top:2px;">June 2025</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);padding:10px 12px;">
+        <div style="font-size:10px;font-weight:700;color:var(--n-400);letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px;">Received</div>
+        <div style="font-size:16px;font-weight:700;color:var(--success);">Rs.1,500</div>
+        <div style="font-size:10px;color:var(--n-400);margin-top:2px;">June 2025</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);padding:10px 12px;">
+        <div style="font-size:10px;font-weight:700;color:var(--n-400);letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px;">Net</div>
+        <div style="font-size:16px;font-weight:700;color:var(--danger);">-Rs.12,850</div>
+        <div style="font-size:10px;color:var(--n-400);margin-top:2px;">June 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter chips -->
+  <div id="filterBar" style="display:none;padding:12px 16px 0;">
+    <div class="action-chips" style="padding:0;margin:0;">
+      <button class="chip" style="border-color:var(--brand);color:var(--brand);" id="f-all" onclick="filterT('all',this)">All</button>
+      <button class="chip" id="f-sent" onclick="filterT('out',this)">Sent</button>
+      <button class="chip" id="f-recv" onclick="filterT('in',this)">Received</button>
+      <button class="chip" id="f-bills" onclick="filterT('bill',this)">Bills</button>
+    </div>
+  </div>
+
+  <!-- Privacy notice (inline, no modal) -->
+  <div style="margin:14px 20px 0;">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--warning-lt);border-radius:var(--r-sm);border:1px solid #FCD34D;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span style="font-size:12px;color:#92400E;flex:1;">Mobile number visible in UPI ID.</span>
+      <span style="font-size:12px;font-weight:700;color:#92400E;cursor:pointer;text-decoration:underline;" onclick="this.closest('div').parentElement.remove()">Change UPI ID</span>
+    </div>
+  </div>
+
+  <!-- Transaction list -->
+  <div style="padding:16px 20px 0;">
+    <div class="txn-group" id="txnList">
+
+      <div class="txn-month-bar">
+        <span class="txn-month-label">June 2025</span>
+        <span class="txn-month-net" style="color:var(--danger);">Net &minus;Rs.12,850</span>
+      </div>
+
+      <div class="txn-row" data-dir="out"><div class="txn-icon t1">AS</div><div class="txn-detail"><div class="txn-name">Anjali Sharma</div><div class="txn-meta">29 Jun &middot; 3:40 PM</div><span class="txn-note">Shared rent</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.3,200</div><div class="txn-dir out">Sent</div></div></div>
+
+      <div class="txn-row" data-dir="in"><div class="txn-icon t2">RM</div><div class="txn-detail"><div class="txn-name">Rohit Mehta</div><div class="txn-meta">28 Jun &middot; 7:15 PM</div></div><div class="txn-right"><div class="txn-amount in">+Rs.1,500</div><div class="txn-dir in">Received</div></div></div>
+
+      <div class="txn-row" data-dir="out" data-cat="bill"><div class="txn-icon t4" style="font-size:11px;">TE</div><div class="txn-detail"><div class="txn-name">TORRENT Electricity</div><div class="txn-meta">27 Jun &middot; 10:00 AM</div><span class="txn-note">Electricity</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.1,850</div><div class="txn-dir out">Bill</div></div></div>
+
+      <div class="txn-row" data-dir="out"><div class="txn-icon t3">PN</div><div class="txn-detail"><div class="txn-name">Pooja Nair</div><div class="txn-meta">26 Jun &middot; 8:00 PM</div><span class="txn-note">Dinner</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.600</div><div class="txn-dir out">Sent</div></div></div>
+
+      <div class="txn-row" data-dir="out"><div class="txn-icon t4">VS</div><div class="txn-detail"><div class="txn-name">Vikram Singh</div><div class="txn-meta">24 Jun &middot; 5:30 PM</div><span class="txn-note">Gym</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.2,100</div><div class="txn-dir out">Sent</div></div></div>
+
+      <div class="txn-row" data-dir="out" data-cat="bill"><div class="txn-icon t5" style="font-size:11px;">AR</div><div class="txn-detail"><div class="txn-name">Airtel Recharge</div><div class="txn-meta">20 Jun &middot; 9:00 AM</div><span class="txn-note">Recharge</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.299</div><div class="txn-dir out">Recharge</div></div></div>
+
+      <div class="txn-row" data-dir="out"><div class="txn-icon t6" style="font-size:11px;">GS</div><div class="txn-detail"><div class="txn-name">Green Park Society</div><div class="txn-meta">1 Jun &middot; 10:00 AM</div><span class="txn-note">Maintenance</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.5,500</div><div class="txn-dir out">Society</div></div></div>
+
+      <div class="txn-month-bar">
+        <span class="txn-month-label">May 2025</span>
+        <span class="txn-month-net" style="color:var(--danger);">Net &minus;Rs.8,200</span>
+      </div>
+
+      <div class="txn-row" data-dir="in"><div class="txn-icon t7">MK</div><div class="txn-detail"><div class="txn-name">Meera Krishnan</div><div class="txn-meta">30 May &middot; 4:00 PM</div></div><div class="txn-right"><div class="txn-amount in">+Rs.2,000</div><div class="txn-dir in">Received</div></div></div>
+
+      <div class="txn-row" data-dir="out"><div class="txn-icon t2">DR</div><div class="txn-detail"><div class="txn-name">Divya Reddy</div><div class="txn-meta">28 May &middot; 7:00 PM</div><span class="txn-note">Travel</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.1,800</div><div class="txn-dir out">Sent</div></div></div>
+
+      <div class="txn-row" data-dir="out" data-cat="bill"><div class="txn-icon t4" style="font-size:11px;">TE</div><div class="txn-detail"><div class="txn-name">TORRENT Electricity</div><div class="txn-meta">27 May &middot; 10:00 AM</div><span class="txn-note">Electricity</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.1,720</div><div class="txn-dir out">Bill</div></div></div>
+
+      <div class="txn-row" data-dir="out"><div class="txn-icon t6" style="font-size:11px;">GS</div><div class="txn-detail"><div class="txn-name">Green Park Society</div><div class="txn-meta">1 May &middot; 10:00 AM</div><span class="txn-note">Maintenance</span></div><div class="txn-right"><div class="txn-amount out">&minus;Rs.5,500</div><div class="txn-dir out">Society</div></div></div>
+
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- PIN -->
+<div class="pin-overlay" id="pinOv">
+  <div class="pin-sheet">
+    <div class="sheet-handle"><span></span></div>
+    <div style="text-align:center;padding:4px 0;">
+      <div style="font-size:17px;font-weight:700;color:var(--n-900);">Enter UPI PIN</div>
+      <div style="font-size:13px;color:var(--n-400);margin-top:4px;">To check your account balance</div>
+      <div class="pin-dots" id="pinDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
+      <div class="pin-keys">
+        <button class="pin-key" onclick="pk('1')">1</button><button class="pin-key" onclick="pk('2')">2</button><button class="pin-key" onclick="pk('3')">3</button>
+        <button class="pin-key" onclick="pk('4')">4</button><button class="pin-key" onclick="pk('5')">5</button><button class="pin-key" onclick="pk('6')">6</button>
+        <button class="pin-key" onclick="pk('7')">7</button><button class="pin-key" onclick="pk('8')">8</button><button class="pin-key" onclick="pk('9')">9</button>
+        <button class="pin-key sm" onclick="closePin()">Cancel</button>
+        <button class="pin-key" onclick="pk('0')">0</button>
+        <button class="pin-key sm" onclick="pdel()">&larr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+renderBottomBar('history');
+let _p='';
+function openPin(){_p='';ud();document.getElementById('pinOv').classList.add('show');}
+function closePin(){document.getElementById('pinOv').classList.remove('show');_p='';ud();}
+function pk(d){if(_p.length>=6)return;_p+=d;ud();if(_p.length===6)setTimeout(()=>{closePin();showBal();},250);}
+function pdel(){_p=_p.slice(0,-1);ud();}
+function ud(){document.querySelectorAll('.pin-dot').forEach((d,i)=>d.classList.toggle('on',i<_p.length));}
+function showBal(){
+  document.getElementById('histBal').textContent='Rs.38,450.00';
+  document.getElementById('histBal').style.color='#fff';
+  document.getElementById('histBal').style.letterSpacing='-1px';
+  document.getElementById('histBal').style.fontSize='26px';
+  const b=document.getElementById('histEyeBtn');
+  b.innerHTML=`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>Hide`;
+  b.onclick=hideBal;
+}
+function hideBal(){
+  document.getElementById('histBal').textContent='\u25CF\u25CF\u25CF\u25CF\u25CF';
+  document.getElementById('histBal').style.color='var(--n-400)';
+  document.getElementById('histBal').style.fontSize='24px';
+  document.getElementById('histBal').style.letterSpacing='2px';
+  const b=document.getElementById('histEyeBtn');
+  b.innerHTML=`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Check Balance`;
+  b.onclick=openPin;
+}
+function toggleFilters(){const f=document.getElementById('filterBar');f.style.display=f.style.display==='none'?'block':'none';}
+function filterT(type,btn){
+  document.querySelectorAll('#filterBar .chip').forEach(b=>{b.style.borderColor='';b.style.color='';});
+  btn.style.borderColor='var(--brand)'; btn.style.color='var(--brand)';
+  document.querySelectorAll('#txnList .txn-row').forEach(el=>{
+    if(type==='all') el.style.display='';
+    else if(type==='bill') el.style.display=(el.dataset.cat==='bill')?'':'none';
+    else el.style.display=(el.dataset.dir===type)?'':'none';
+  });
+}
+</script>
+</body>
+</html>

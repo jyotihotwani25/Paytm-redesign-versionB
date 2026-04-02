@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paytm B — Send Money</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hdr { background: var(--nav-surface); padding: 13px 20px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:100; }
+    .page-hdr-back { width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+    .page-hdr-back svg { width:18px;height:18px;stroke:rgba(255,255,255,.8);fill:none;stroke-width:2;stroke-linecap:round; }
+    .page-hdr-title { font-size:16px;font-weight:700;color:#fff; }
+    .amount-stage { display:none; }
+    .amount-stage.show { display:block; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-hdr">
+    <a href="index.html" class="page-hdr-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+    <span class="page-hdr-title" id="pageTitle">Send Money</span>
+  </div>
+
+  <!-- Stage 1: Contact selection -->
+  <div id="stage1">
+    <div style="padding:16px 20px 0;">
+      <div class="field-inner">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+        <input class="field-input" type="text" placeholder="Name, UPI ID or mobile number" id="searchQ" oninput="filterList(this.value)" style="padding-right:50px;">
+        <div class="field-action" onclick="window.location='scan.html'" title="Scan QR to pay">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h.01M14 18h3M17 14v4M20 14h.01"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent contacts scroll -->
+    <div style="padding:16px 20px 8px;">
+      <div style="font-size:11px;font-weight:700;color:var(--n-400);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">Recent</div>
+      <div class="contact-row" style="padding:0;margin:0;">
+        <div class="contact-bubble" onclick="selectContact('Anjali Sharma','anjali.s@okicici','AS','t1')"><div class="cb-ring r-teal">AS</div><div class="cb-name">Anjali</div></div>
+        <div class="contact-bubble" onclick="selectContact('Rohit Mehta','rohit.m@ybl','RM','t2')"><div class="cb-ring r-indigo">RM</div><div class="cb-name">Rohit</div></div>
+        <div class="contact-bubble" onclick="selectContact('Pooja Nair','pooja.n@okhdfc','PN','t3')"><div class="cb-ring r-rose">PN</div><div class="cb-name">Pooja</div></div>
+        <div class="contact-bubble" onclick="selectContact('Vikram Singh','vikram.s@ptyes','VS','t4')"><div class="cb-ring r-amber">VS</div><div class="cb-name">Vikram</div></div>
+        <div class="contact-bubble" onclick="selectContact('Divya Reddy','divya.r@okaxis','DR','t5')"><div class="cb-ring r-violet">DR</div><div class="cb-name">Divya</div></div>
+      </div>
+    </div>
+
+    <!-- All contacts -->
+    <div style="padding:0 20px;">
+      <div style="font-size:11px;font-weight:700;color:var(--n-400);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">All Contacts</div>
+      <div class="card-surface" id="contactList">
+        <div class="clist-item" data-n="Anjali Sharma" onclick="selectContact('Anjali Sharma','anjali.s@okicici','AS','t1')">
+          <div class="av av-40 t1">AS</div>
+          <div><div class="clist-name">Anjali Sharma</div><div class="clist-sub">anjali.s@okicici &middot; Last: Rs.3,200</div></div>
+        </div>
+        <div class="clist-item" data-n="Rohit Mehta" onclick="selectContact('Rohit Mehta','rohit.m@ybl','RM','t2')">
+          <div class="av av-40 t2">RM</div>
+          <div><div class="clist-name">Rohit Mehta</div><div class="clist-sub">rohit.m@ybl</div></div>
+        </div>
+        <div class="clist-item" data-n="Pooja Nair" onclick="selectContact('Pooja Nair','pooja.n@okhdfc','PN','t3')">
+          <div class="av av-40 t3">PN</div>
+          <div><div class="clist-name">Pooja Nair</div><div class="clist-sub">pooja.n@okhdfc</div></div>
+        </div>
+        <div class="clist-item" data-n="Vikram Singh" onclick="selectContact('Vikram Singh','vikram.s@ptyes','VS','t4')">
+          <div class="av av-40 t4">VS</div>
+          <div><div class="clist-name">Vikram Singh</div><div class="clist-sub">vikram.s@ptyes</div></div>
+        </div>
+        <div class="clist-item" data-n="Divya Reddy" onclick="selectContact('Divya Reddy','divya.r@okaxis','DR','t5')">
+          <div class="av av-40 t5">DR</div>
+          <div><div class="clist-name">Divya Reddy</div><div class="clist-sub">divya.r@okaxis</div></div>
+        </div>
+        <div class="clist-item" data-n="Suresh Iyer" onclick="selectContact('Suresh Iyer','suresh.i@okhdfcbank','SI','t6')">
+          <div class="av av-40 t6">SI</div>
+          <div><div class="clist-name">Suresh Iyer</div><div class="clist-sub">suresh.i@okhdfcbank</div></div>
+        </div>
+        <div class="clist-item" data-n="Meera Krishnan" onclick="selectContact('Meera Krishnan','meera.k@okaxis','MK','t7')">
+          <div class="av av-40 t7">MK</div>
+          <div><div class="clist-name">Meera Krishnan</div><div class="clist-sub">meera.k@okaxis</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <!-- Stage 2: Amount entry -->
+  <div id="stage2" class="amount-stage">
+    <div style="padding:24px 20px 0;">
+      <!-- Selected contact summary -->
+      <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--n-000);border:1px solid var(--n-100);border-radius:var(--r-md);margin-bottom:24px;box-shadow:var(--sh-xs);">
+        <div class="av av-44 t1" id="s2-av">AS</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;color:var(--n-900);" id="s2-name">Anjali Sharma</div>
+          <div style="font-size:12px;color:var(--n-400);margin-top:2px;" id="s2-upi">anjali.s@okicici</div>
+        </div>
+        <button onclick="goStage1()" style="font-size:12px;font-weight:600;color:var(--brand);background:none;border:none;cursor:pointer;">Change</button>
+      </div>
+
+      <!-- Big amount input -->
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:14px;font-weight:600;color:var(--n-400);letter-spacing:.4px;text-transform:uppercase;margin-bottom:12px;">Enter Amount</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:4px;">
+          <span style="font-size:36px;font-weight:700;color:var(--n-900);">Rs.</span>
+          <input type="number" inputmode="decimal" id="amtInput" placeholder="0"
+            style="font-size:40px;font-weight:700;color:var(--n-900);border:none;outline:none;font-family:var(--font);background:transparent;width:160px;text-align:left;">
+        </div>
+        <div style="height:2px;background:var(--n-200);border-radius:1px;margin:0 40px;margin-top:8px;"></div>
+        <div style="font-size:12px;color:var(--n-300);margin-top:8px;">ICICI Bank &middot; AC &middot;&middot;&middot;5512</div>
+      </div>
+
+      <!-- Quick amounts -->
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;">
+        <button onclick="setAmt(500)" style="padding:7px 16px;border-radius:99px;border:1.5px solid var(--n-200);background:var(--n-000);font-size:13px;font-weight:600;color:var(--n-700);cursor:pointer;font-family:var(--font);">Rs.500</button>
+        <button onclick="setAmt(1000)" style="padding:7px 16px;border-radius:99px;border:1.5px solid var(--n-200);background:var(--n-000);font-size:13px;font-weight:600;color:var(--n-700);cursor:pointer;font-family:var(--font);">Rs.1,000</button>
+        <button onclick="setAmt(2000)" style="padding:7px 16px;border-radius:99px;border:1.5px solid var(--n-200);background:var(--n-000);font-size:13px;font-weight:600;color:var(--n-700);cursor:pointer;font-family:var(--font);">Rs.2,000</button>
+        <button onclick="setAmt(5000)" style="padding:7px 16px;border-radius:99px;border:1.5px solid var(--n-200);background:var(--n-000);font-size:13px;font-weight:600;color:var(--n-700);cursor:pointer;font-family:var(--font);">Rs.5,000</button>
+      </div>
+
+      <!-- Note field -->
+      <div class="field-inner" style="margin-bottom:20px;">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <input class="field-input" type="text" placeholder="Add a note (optional)" id="noteInput">
+      </div>
+
+      <button class="btn btn-brand btn-full" style="height:54px;font-size:16px;" onclick="proceedPay()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Pay Now
+      </button>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+</div>
+<script src="script.js"></script>
+<script>
+renderBottomBar('pay');
+
+let selectedName='', selectedUpi='', selectedInit='', selectedCls='';
+
+function filterList(v) {
+  const q = v.toLowerCase();
+  document.querySelectorAll('#contactList .clist-item').forEach(el => {
+    el.style.display = el.dataset.n.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function selectContact(name, upi, init, cls) {
+  selectedName=name; selectedUpi=upi; selectedInit=init; selectedCls=cls;
+  sessionStorage.setItem('payee', name); sessionStorage.setItem('upi', upi);
+  document.getElementById('s2-av').textContent = init;
+  document.getElementById('s2-av').className = 'av av-44 ' + cls;
+  document.getElementById('s2-name').textContent = name;
+  document.getElementById('s2-upi').textContent = upi;
+  document.getElementById('stage1').style.display = 'none';
+  document.getElementById('stage2').classList.add('show');
+  document.getElementById('pageTitle').textContent = 'Enter Amount';
+  document.getElementById('amtInput').focus();
+}
+
+function goStage1() {
+  document.getElementById('stage1').style.display = 'block';
+  document.getElementById('stage2').classList.remove('show');
+  document.getElementById('pageTitle').textContent = 'Send Money';
+}
+
+function setAmt(n) {
+  document.getElementById('amtInput').value = n;
+}
+
+function proceedPay() {
+  const amt = document.getElementById('amtInput').value;
+  if (!amt || isNaN(amt) || +amt <= 0) {
+    document.getElementById('amtInput').style.color = 'var(--danger)';
+    return;
+  }
+  sessionStorage.setItem('payAmount', amt);
+  sessionStorage.setItem('payNote', document.getElementById('noteInput').value || 'Money Transfer');
+  window.location = 'payment-success.html';
+}
+
+// Auto-load from sessionStorage if payee already chosen
+const preName = sessionStorage.getItem('payee');
+const preUpi  = sessionStorage.getItem('upi');
+if (preName && preUpi) {
+  const init = preName.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  selectContact(preName, preUpi, init, 't1');
+}
+</script>
+</body>
+</html>

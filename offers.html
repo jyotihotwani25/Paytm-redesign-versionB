@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paytm B — Offers</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hdr{background:var(--nav-surface);padding:13px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+    .page-hdr-back{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .page-hdr-back svg{width:18px;height:18px;stroke:rgba(255,255,255,.8);fill:none;stroke-width:2;stroke-linecap:round;}
+    .page-hdr-title{font-size:16px;font-weight:700;color:#fff;flex:1;}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-hdr">
+    <a href="index.html" class="page-hdr-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+    <span class="page-hdr-title">Offers &amp; Rewards</span>
+    <button style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    </button>
+  </div>
+
+  <!-- Rewards summary (dark strip) -->
+  <div style="background:var(--nav-surface);padding:0 20px 20px;">
+    <div class="reward-bar">
+      <div class="reward-stat"><div class="reward-val">Rs.84</div><div class="reward-lbl">Cashback</div></div>
+      <div class="reward-stat"><div class="reward-val" style="color:var(--warning);">412</div><div class="reward-lbl">Gold Coins</div></div>
+      <div class="reward-stat"><div class="reward-val" style="color:var(--brand);">3</div><div class="reward-lbl">Scratch Cards</div></div>
+      <div class="reward-stat"><div class="reward-val">28</div><div class="reward-lbl">Vouchers</div></div>
+    </div>
+  </div>
+
+  <!-- Category tabs -->
+  <div class="sec" style="padding-top:16px;">
+    <div class="offer-cat-tabs">
+      <button class="oct on" id="ot-all" onclick="switchOct('all',this)">All</button>
+      <button class="oct" id="ot-cb"    onclick="switchOct('cashback',this)">Cashback</button>
+      <button class="oct" id="ot-sc"    onclick="switchOct('scratch',this)">Scratch Cards</button>
+      <button class="oct" id="ot-voucher" onclick="switchOct('voucher',this)">Vouchers</button>
+      <button class="oct" id="ot-rech"  onclick="switchOct('recharge',this)">Recharge</button>
+    </div>
+  </div>
+
+  <!-- Active cashback -->
+  <div class="sec" style="padding-top:16px;" id="sec-cashback" data-cat="cashback">
+    <div class="sec-head"><span class="sec-title">Active Cashback</span></div>
+
+    <div class="offer-card-full">
+      <div class="ofc-ico" style="background:#E0F2FE;color:#0284C7;"><svg viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 01-2.18 2A19.79 19.79 0 012 4.18 2 2 0 014 2h2.09A2 2 0 018 3.71c.327.96.694 1.9 1.1 2.81a2 2 0 01-.45 2.11L7.91 9.37A16 16 0 0014.63 16l.75-.75a2 2 0 012.11-.45c.91.406 1.85.773 2.81 1.1A2 2 0 0122 16.92z"/></svg></div>
+      <div class="ofc-body">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="ofc-title">Mobile Recharge</div><span class="offer-tag tag-green">10% off</span></div>
+        <div class="ofc-desc">Get up to Rs.50 cashback on Airtel or Jio prepaid recharges above Rs.199. Valid on first 3 transactions.</div>
+        <div class="ofc-cta"><button class="btn btn-outline" style="padding:8px 18px;font-size:12px;" onclick="window.location='pay.html'">Recharge Now</button></div>
+      </div>
+    </div>
+
+    <div class="offer-card-full">
+      <div class="ofc-ico" style="background:var(--warning-lt);color:var(--warning);"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="ofc-body">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="ofc-title">Electricity Bill</div><span class="offer-tag tag-blue">Rs.30 off</span></div>
+        <div class="ofc-desc">Flat Rs.30 cashback on electricity bill payment via Paytm UPI. Valid on TORRENT, UGVCL, CESC. Until 31 Jul.</div>
+        <div class="ofc-cta"><button class="btn btn-outline" style="padding:8px 18px;font-size:12px;" onclick="window.location='pay.html'">Pay Bill</button></div>
+      </div>
+    </div>
+
+    <div class="offer-card-full">
+      <div class="ofc-ico" style="background:var(--success-lt);color:var(--success);"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+      <div class="ofc-body">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="ofc-title">UPI Payment</div><span class="offer-tag tag-blue">Rs.20 off</span></div>
+        <div class="ofc-desc">Rs.20 cashback on any UPI payment above Rs.500. Valid for 3 transactions this month. Terms apply.</div>
+        <div class="ofc-cta"><button class="btn btn-outline" style="padding:8px 18px;font-size:12px;" onclick="window.location='pay.html'">Pay Now</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scratch cards -->
+  <div class="sec" style="padding-top:16px;" id="sec-scratch" data-cat="scratch">
+    <div class="sec-head">
+      <span class="sec-title">Scratch Cards</span>
+      <span style="font-size:12px;color:var(--n-400);">3 pending</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div class="scratch-slot" onclick="scratch(this)">
+        <div class="scratch-cover">Scratch</div>
+        <div class="scratch-label">UPI payment</div>
+      </div>
+      <div class="scratch-slot" onclick="scratch(this)">
+        <div class="scratch-cover">Scratch</div>
+        <div class="scratch-label">Bill payment</div>
+      </div>
+      <div class="scratch-slot" onclick="scratch(this)">
+        <div class="scratch-cover" style="background:var(--warning-lt);color:#92400E;">Gold</div>
+        <div class="scratch-label">Coins reward</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gift vouchers -->
+  <div class="sec" style="padding-top:16px;" id="sec-voucher" data-cat="voucher">
+    <div class="sec-head">
+      <span class="sec-title">Gift Vouchers</span>
+      <span class="sec-link" style="cursor:pointer;">See all</span>
+    </div>
+    <div class="card-surface">
+      <div style="display:grid;grid-template-columns:1fr 1fr;">
+        <div style="padding:14px;cursor:pointer;border-right:1px solid var(--n-100);border-bottom:1px solid var(--n-100);">
+          <div style="width:38px;height:38px;border-radius:9px;background:#000;display:flex;align-items:center;justify-content:center;margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div style="font-size:13px;font-weight:700;color:var(--n-900);">Apple</div>
+          <div class="offer-tag tag-green" style="margin-top:4px;">3% off</div>
+        </div>
+        <div style="padding:14px;cursor:pointer;border-bottom:1px solid var(--n-100);">
+          <div style="width:38px;height:38px;border-radius:9px;background:#F9A825;display:flex;align-items:center;justify-content:center;margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+          <div style="font-size:13px;font-weight:700;color:var(--n-900);">Flipkart</div>
+          <div class="offer-tag tag-blue" style="margin-top:4px;">1% off</div>
+        </div>
+        <div style="padding:14px;cursor:pointer;border-right:1px solid var(--n-100);">
+          <div style="width:38px;height:38px;border-radius:9px;background:#E53935;display:flex;align-items:center;justify-content:center;margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          <div style="font-size:13px;font-weight:700;color:var(--n-900);">PVR</div>
+          <div class="offer-tag tag-green" style="margin-top:4px;">20% off</div>
+        </div>
+        <div style="padding:14px;cursor:pointer;">
+          <div style="width:38px;height:38px;border-radius:9px;background:#003399;display:flex;align-items:center;justify-content:center;margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div style="font-size:13px;font-weight:700;color:var(--n-900);">Domino's</div>
+          <div class="offer-tag tag-amber" style="margin-top:4px;">15% off</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recharge offers -->
+  <div class="sec" style="padding-top:16px;padding-bottom:0;" id="sec-recharge" data-cat="recharge">
+    <div class="sec-head"><span class="sec-title">Recharge Deals</span></div>
+    <div class="offer-card-full">
+      <div class="ofc-ico" style="background:#E0F2FE;color:#0284C7;"><svg viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 01-2.18 2A19.79 19.79 0 012 4.18 2 2 0 014 2h2.09A2 2 0 018 3.71c.327.96.694 1.9 1.1 2.81a2 2 0 01-.45 2.11L7.91 9.37A16 16 0 0014.63 16l.75-.75a2 2 0 012.11-.45c.91.406 1.85.773 2.81 1.1A2 2 0 0122 16.92z"/></svg></div>
+      <div class="ofc-body">
+        <div class="ofc-title">Airtel Rs.299</div>
+        <div class="ofc-desc">28-day plan with unlimited calls and 2GB/day data. Free Amazon Prime 30-day trial.</div>
+        <div class="ofc-cta"><button class="btn btn-brand" style="padding:8px 18px;font-size:12px;" onclick="window.location='pay.html'">Recharge Now</button></div>
+      </div>
+    </div>
+    <div class="offer-card-full">
+      <div class="ofc-ico" style="background:#EDE9FE;color:#7C3AED;"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+      <div class="ofc-body">
+        <div class="ofc-title">FASTag Cashback</div>
+        <div class="ofc-desc">2.5% cashback on FASTag wallet recharge above Rs.200. Valid for 5 transactions.</div>
+        <div class="ofc-cta"><button class="btn btn-outline" style="padding:8px 18px;font-size:12px;" onclick="window.location='pay.html'">Recharge FASTag</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+<script src="script.js"></script>
+<script>
+renderBottomBar('offers');
+const cats = ['cashback','scratch','voucher','recharge'];
+function switchOct(cat, btn) {
+  document.querySelectorAll('.oct').forEach(b=>{b.classList.remove('on');});
+  btn.classList.add('on');
+  cats.forEach(c => {
+    const el = document.getElementById('sec-'+c);
+    if(el) el.style.display = (cat==='all'||c===cat) ? '' : 'none';
+  });
+}
+function scratch(card) {
+  const cover = card.querySelector('.scratch-cover');
+  const vals = ['Rs.10','Rs.20','Rs.5','50 Gold Coins','Better luck next time','Rs.15'];
+  const won = vals[Math.floor(Math.random()*vals.length)];
+  const isWin = !won.includes('luck');
+  card.querySelector('.scratch-cover').style.display='none';
+  const rev = document.createElement('div');
+  rev.className='scratch-revealed';
+  rev.textContent = won;
+  if(!isWin){rev.style.color='var(--n-400)';rev.style.fontSize='14px';}
+  card.insertBefore(rev, card.querySelector('.scratch-label'));
+  card.style.borderColor = isWin ? 'var(--success)' : 'var(--n-200)';
+  card.style.background = isWin ? 'var(--success-lt)' : '';
+}
+</script>
+</body>
+</html>

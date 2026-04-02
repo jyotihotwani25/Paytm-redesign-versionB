@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paytm B — Scan QR</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #000; }
+    .scan-hdr { display:flex;align-items:center;gap:12px;padding:13px 20px;background:transparent;position:sticky;top:0;z-index:10; }
+    .scan-hdr-back { width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center; }
+    .scan-hdr-back svg { width:18px;height:18px;stroke:rgba(255,255,255,.8);fill:none;stroke-width:2;stroke-linecap:round; }
+    .scan-hdr-title { font-size:16px;font-weight:700;color:#fff; }
+    .my-qr-surface { min-height:calc(100vh - 56px - var(--nav-h,56px));background:var(--n-050);display:none;flex-direction:column;align-items:center;padding:24px 20px; }
+    .my-qr-surface.show { display:flex; }
+  </style>
+</head>
+<body>
+<div class="page" style="padding-bottom:0;background:#000;">
+
+  <div class="scan-hdr">
+    <a href="index.html" class="scan-hdr-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+    <span class="scan-hdr-title">Scan QR Code</span>
+    <div style="margin-left:auto;">
+      <div class="mode-tabs" style="margin-top:0;">
+        <div class="mode-tab on" id="scanTab" onclick="switchMode('scan')">Scan</div>
+        <div class="mode-tab" id="myqrTab" onclick="switchMode('myqr')">My QR</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCAN VIEW -->
+  <div id="scanView">
+    <div class="scan-surface">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,#111 0%,#000 100%);"></div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+        <div class="qr-frame">
+          <div class="qf-c qf-tl"></div><div class="qf-c qf-tr"></div>
+          <div class="qf-c qf-br"></div><div class="qf-c qf-bl"></div>
+          <div class="scan-beam"></div>
+        </div>
+        <div class="scan-tip">Align QR code within the frame to pay</div>
+        <div class="scan-btn-row">
+          <div class="scan-btn" onclick="toggleTorch()">
+            <div class="scan-btn-circle" id="torchCircle">
+              <svg viewBox="0 0 24 24"><path d="M9 7h6l-1 7H10L9 7z"/><path d="M9 17h6v2a1 1 0 01-1 1h-4a1 1 0 01-1-1v-2z"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
+            </div>
+            <span class="scan-btn-label">Torch</span>
+          </div>
+          <div class="scan-btn" onclick="simScan()">
+            <div class="scan-btn-circle">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <span class="scan-btn-label">Gallery</span>
+          </div>
+          <div class="scan-btn" onclick="openManual()">
+            <div class="scan-btn-circle">
+              <svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+            </div>
+            <span class="scan-btn-label">Enter UPI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#0F1923;padding:16px 20px 28px;">
+      <div style="font-size:11px;color:rgba(255,255,255,.3);text-align:center;letter-spacing:.4px;text-transform:uppercase;margin-bottom:12px;">Accepts all UPI apps</div>
+      <div style="display:flex;justify-content:center;gap:24px;">
+        <div style="text-align:center;"><div style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><span style="font-size:10px;color:rgba(255,255,255,.3);">Paytm</span></div>
+        <div style="text-align:center;"><div style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/></svg></div><span style="font-size:10px;color:rgba(255,255,255,.3);">PhonePe</span></div>
+        <div style="text-align:center;"><div style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><span style="font-size:10px;color:rgba(255,255,255,.3);">BHIM</span></div>
+        <div style="text-align:center;"><div style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><span style="font-size:10px;color:rgba(255,255,255,.3);">GPay</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY QR VIEW -->
+  <div id="myQrView" class="my-qr-surface">
+    <div style="background:var(--n-000);border-radius:var(--r-lg);padding:20px;width:100%;max-width:320px;border:1px solid var(--n-100);box-shadow:var(--sh-md);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--n-100);">
+        <div class="av av-40 t8">AK</div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:var(--n-900);">Arjun Kapoor</div><div style="font-size:11px;color:var(--n-400);margin-top:2px;">arjun.kapoor@okicici</div></div>
+        <span class="badge badge-success">Verified</span>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:170px;height:170px;border:3px solid var(--brand);border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+          <svg width="136" height="136" viewBox="0 0 140 140" fill="none">
+            <rect x="0" y="0" width="42" height="42" rx="4" fill="#0F1923"/><rect x="8" y="8" width="26" height="26" fill="white"/><rect x="13" y="13" width="16" height="16" fill="#0F1923"/>
+            <rect x="98" y="0" width="42" height="42" rx="4" fill="#0F1923"/><rect x="106" y="8" width="26" height="26" fill="white"/><rect x="111" y="13" width="16" height="16" fill="#0F1923"/>
+            <rect x="0" y="98" width="42" height="42" rx="4" fill="#0F1923"/><rect x="8" y="106" width="26" height="26" fill="white"/><rect x="13" y="111" width="16" height="16" fill="#0F1923"/>
+            <rect x="52" y="52" width="12" height="12" rx="2" fill="#00BAF2"/>
+            <rect x="48" y="4" width="6" height="6" rx="1" fill="#0F1923"/><rect x="60" y="8" width="6" height="6" rx="1" fill="#0F1923"/><rect x="72" y="4" width="6" height="6" rx="1" fill="#0F1923"/>
+            <rect x="68" y="48" width="6" height="6" rx="1" fill="#0F1923"/><rect x="80" y="58" width="6" height="6" rx="1" fill="#0F1923"/>
+            <rect x="48" y="100" width="6" height="6" rx="1" fill="#0F1923"/><rect x="62" y="110" width="6" height="6" rx="1" fill="#0F1923"/><rect x="76" y="100" width="6" height="6" rx="1" fill="#0F1923"/>
+          </svg>
+        </div>
+        <div style="font-size:12px;color:var(--n-400);">ICICI Bank &middot; AC &middot;&middot;&middot;5512</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button class="btn btn-muted btn-full" style="font-size:13px;gap:6px;"><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+        <button class="btn btn-outline btn-full" style="font-size:13px;gap:6px;"><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Manual UPI sheet -->
+<div class="overlay" id="manOv" onclick="closeManual()"></div>
+<div class="sheet" id="manSheet">
+  <div class="sheet-handle"><span></span></div>
+  <div class="sheet-title">Enter UPI ID</div>
+  <div style="padding:0 20px;">
+    <div class="field-inner">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+      <input class="field-input" type="text" placeholder="name@upi" id="manInput">
+    </div>
+    <button class="btn btn-brand btn-full" style="margin-top:14px;" onclick="verifyUpi()">Verify &amp; Pay</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+renderBottomBar('scan');
+let torchOn=false;
+function switchMode(m) {
+  const isScan = m==='scan';
+  document.getElementById('scanView').style.display = isScan?'block':'none';
+  document.getElementById('myQrView').classList.toggle('show', !isScan);
+  document.getElementById('scanTab').classList.toggle('on', isScan);
+  document.getElementById('myqrTab').classList.toggle('on', !isScan);
+}
+function toggleTorch() {
+  torchOn=!torchOn;
+  document.getElementById('torchCircle').style.background = torchOn ? 'rgba(255,214,0,.22)' : 'rgba(255,255,255,.1)';
+}
+function simScan() {
+  sessionStorage.setItem('payee','QR Merchant'); sessionStorage.setItem('upi','merchant@okicici');
+  sessionStorage.setItem('payAmount','350'); sessionStorage.setItem('payNote','QR Scan');
+  window.location='payment-success.html';
+}
+function openManual() { document.getElementById('manOv').style.display='block'; document.getElementById('manSheet').style.display='block'; }
+function closeManual() { document.getElementById('manOv').style.display='none'; document.getElementById('manSheet').style.display='none'; }
+function verifyUpi() {
+  const v=document.getElementById('manInput').value.trim();
+  if (!v||!v.includes('@')) { document.getElementById('manInput').style.borderColor='var(--danger)'; return; }
+  sessionStorage.setItem('payee',v); sessionStorage.setItem('upi',v);
+  closeManual(); window.location='pay.html';
+}
+</script>
+</body>
+</html>
